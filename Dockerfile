@@ -14,9 +14,9 @@ ENV APP_ENV production
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 
-RUN cd /usr/bin && curl -s http://getcomposer.org/installer | php && ln -s /usr/bin/composer.phar /usr/bin/composer
-
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
+
+RUN apk add --update nodejs npm
 
 CMD ["/start.sh"]
