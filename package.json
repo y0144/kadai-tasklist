@@ -6,17 +6,22 @@
         "build": "vite build",
         "laravel-up": "./vendor/bin/sail up -d",
         "laravel-down": "./vendor/bin/sail down",
-        "tinker":"./vendor/bin/sail tinker",
-        "migrate":"./vendor/bin/sail artisan migrate",
-        "migrate:init":"./vendor/bin/sail artisan make:migration create_tasks_table --create=tasks",
-        "migrate:status":"./vendor/bin/sail artisan migrate:status",
-        "model:create":"./vendor/bin/sail artisan make:model Task",
-        "database:up":"./vendor/bin/sail exec mysql mysql -u root -p",
-        "controller:create":"./vendor/bin/sail artisan make:controller TasksController --resource"
+        "tinker": "./vendor/bin/sail tinker",
+        "migrate": "./vendor/bin/sail artisan migrate",
+        "migrate:init": "./vendor/bin/sail artisan make:migration create_tasks_table --create=tasks",
+        "migrate:status": "./vendor/bin/sail artisan migrate:status",
+        "model:create": "./vendor/bin/sail artisan make:model Task",
+        "database:up": "./vendor/bin/sail exec mysql mysql -u root -p",
+        "controller:create": "./vendor/bin/sail artisan make:controller TasksController --resource"
     },
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.2",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.4.2",
         "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0.0",
+        "postcss": "^8.4.31",
+        "tailwindcss": "^3.1.0",
         "vite": "^5.0.0"
     }
 }
