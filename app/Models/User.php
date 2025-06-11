@@ -42,4 +42,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function tasks(){
+        return $this->hasMany(Task::class);
+    }
+
+    public function feed_tasks(){
+        $tasks = $this->tasklists()->pluck('tasks.id')->toArray();
+        
+        $tasks[] = $this->id;
+
+        return Task::whereIn("id",$tasks);
+    }
+
+    public function tasklists()
+    {
+        return $this->belongsToMany(Task::class, "tasks", "user_id", "id")->withTimestamps();
+    }
 }

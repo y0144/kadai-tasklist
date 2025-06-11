@@ -13,10 +13,17 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
+        $data = [];
+        if(\Auth::check()){
+            $user = \Auth::user();
+            $tasks = $user->tasks()->get();
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks
+            ];
+            //return view('dashboard', $tasks);
+        }
+        return view('dashboard', $data);
     }
 
     /**
@@ -32,14 +39,18 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "content" => "required|max:255",
-            "status" => "required|max:10",
-        ]);
-        $task = new Task;
-        $task->content = $request->content;
-        $task->status = $request->status;
-        $task->save();
+        if(\Auth::check()){
+            $user = \Auth::user();
+            $request->validate([
+                "content" => "required|max:255",
+                "status" => "required|max:10",
+            ]);
+            $task = new Task;
+            $task->content = $request->content;
+            $task->status = $request->status;
+            $task->user_id = $user->id;
+            $task->save();
+        }
 
         return redirect("/");
     }
@@ -48,14 +59,16 @@ class TasksController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-
     {
+        $user = \Auth::user();
         $task = Task::findOrFail($id);
-
-        // メッセージ詳細ビューでそれを表示
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
+        if($task->user_id == $user->id){
+            // メッセージ詳細ビューでそれを表示
+            return view('tasks.show', [
+                'task' => $task,
+            ]);
+        }
+        return redirect('/');
     }
 
     /**
@@ -63,13 +76,15 @@ class TasksController extends Controller
      */
     public function edit(string $id)
     {
+        $user = \Auth::user();
         // idの値でメッセージを検索して取得
         $task = Task::findOrFail($id);
-
-        // メッセージ編集ビューでそれを表示
-        return view('tasks.edit', [
-            'task' => $task,
-        ]);
+        if($task->user_id == $user->id){
+            return view('tasks.edit', [
+                'task' => $task,
+            ]);
+        }
+        return redirect('/');
     }
 
     /**
@@ -77,16 +92,18 @@ class TasksController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            "content" => "required|max:255",
-            "status" => "required|max:10"
-        ]);
-        // idの値でメッセージを検索して取得
-        $task = Task::findOrFail($id);
-        // メッセージを更新
-        $task->content = $request->content;
-        $task->status = $request->status;
-        $task->save();
+        if(\Auth::check()){
+            $request->validate([
+                "content" => "required|max:255",
+                "status" => "required|max:10"
+            ]);
+            // idの値でメッセージを検索して取得
+            $task = Task::findOrFail($id);
+            // メッセージを更新
+            $task->content = $request->content;
+            $task->status = $request->status;
+            $task->save();
+        }
 
         // トップページへリダイレクトさせる
         return redirect('/');

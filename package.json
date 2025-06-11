@@ -10,15 +10,18 @@
         "migrate": "./vendor/bin/sail artisan migrate",
         "migrate:init": "./vendor/bin/sail artisan make:migration create_tasks_table --create=tasks",
         "migrate:status": "./vendor/bin/sail artisan migrate:status",
+        "migrate:rollback": "./vendor/bin/sail artisan migrate:rollback",
         "model:create": "./vendor/bin/sail artisan make:model Task",
         "database:up": "./vendor/bin/sail exec mysql mysql -u root -p",
         "controller:create": "./vendor/bin/sail artisan make:controller TasksController --resource"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
+        "@tailwindcss/typography": "^0.5.10",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
         "axios": "^1.6.4",
+        "daisyui": "^4.6.1",
         "laravel-vite-plugin": "^1.0.0",
         "postcss": "^8.4.31",
         "tailwindcss": "^3.1.0",
