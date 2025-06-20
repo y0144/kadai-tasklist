@@ -14,7 +14,7 @@
                     <label for="status" class="label">
                         <span class="label-text">status:</span>
                     </label>
-                    <input type="text" name="status" class="input input-bordered w-full">
+                    <input type="text" name="status" value="{{ $task->status }}" class="input input-bordered w-full">
                 </div>
                 <div class="form-control my-4">
                     <label for="content" class="label">
