@@ -39,7 +39,6 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        if($task->user_id == $user->id){
             $user = \Auth::user();
             $request->validate([
                 "content" => "required|max:255",
@@ -50,7 +49,6 @@ class TasksController extends Controller
             $task->status = $request->status;
             $task->user_id = $user->id;
             $task->save();
-        }
 
         return redirect("/");
     }
@@ -92,13 +90,13 @@ class TasksController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $task = Task::findOrFail($id);
         if($task->user_id == $user->id){
             $request->validate([
                 "content" => "required|max:255",
                 "status" => "required|max:10"
             ]);
             // idの値でメッセージを検索して取得
-            $task = Task::findOrFail($id);
             // メッセージを更新
             $task->content = $request->content;
             $task->status = $request->status;
@@ -114,9 +112,9 @@ class TasksController extends Controller
      */
     public function destroy(string $id)
     {
+        $task = Task::findOrFail($id);
         if($task->user_id == $user->id){
             // idの値でメッセージを検索して取得
-            $task = Task::findOrFail($id);
             // メッセージを削除
             $task->delete();
         }
