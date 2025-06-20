@@ -14,7 +14,7 @@ class TasksController extends Controller
     public function index()
     {
         $data = [];
-        if(\Auth::check()){
+        if($task->user_id == $user->id){
             $user = \Auth::user();
             $tasks = $user->tasks()->get();
             $data = [
@@ -39,7 +39,7 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        if(\Auth::check()){
+        if($task->user_id == $user->id){
             $user = \Auth::user();
             $request->validate([
                 "content" => "required|max:255",
@@ -92,7 +92,7 @@ class TasksController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if(\Auth::check()){
+        if($task->user_id == $user->id){
             $request->validate([
                 "content" => "required|max:255",
                 "status" => "required|max:10"
@@ -114,11 +114,12 @@ class TasksController extends Controller
      */
     public function destroy(string $id)
     {
-        // idの値でメッセージを検索して取得
-        $task = Task::findOrFail($id);
-        // メッセージを削除
-        $task->delete();
-
+        if($task->user_id == $user->id){
+            // idの値でメッセージを検索して取得
+            $task = Task::findOrFail($id);
+            // メッセージを削除
+            $task->delete();
+        }
         // トップページへリダイレクトさせる
         return redirect('/');
     }
